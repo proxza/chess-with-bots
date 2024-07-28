@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { ChessBoard } from '../../chess-logic/chess-board';
 import { Color, FENChar } from '../../chess-logic/models';
+import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-chess-board',
   standalone: true,
-  imports: [],
+  imports: [NgFor],
   templateUrl: './chess-board.component.html',
   styleUrl: './chess-board.component.css',
 })
