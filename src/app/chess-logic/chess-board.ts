@@ -184,9 +184,20 @@ export class ChessBoard {
             while (this.areCoordsValid(newX, newY)) {
               newPiece = this.chessBoard[newX][newY];
               if (newPiece && newPiece.color === piece.color) break;
+
+              if (this.isPositionSafeAfterMove(piece, x, y, newX, newY))
+                pieceSafeSquares.push({ x: newX, y: newY });
+
+              if (newPiece !== null) break;
+
+              newX += dx;
+              newY += dy;
             }
           }
         }
+
+        if (pieceSafeSquares.length)
+          safeSquares.set(x + ',' + y, pieceSafeSquares);
       }
     }
 
