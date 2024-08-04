@@ -68,8 +68,8 @@ export class ChessBoard {
   }
 
   public get chessBoardView(): (FENChar | null)[][] {
-    return this.chessBoard.map((row) => {
-      return row.map((piece) => (piece instanceof Piece ? piece.FENChar : null));
+    return this.chessBoard.map(row => {
+      return row.map(piece => (piece instanceof Piece ? piece.FENChar : null));
     });
   }
 
@@ -194,5 +194,25 @@ export class ChessBoard {
     }
 
     return safeSquares;
+  }
+
+  public move(prevX: number, prevY: number, newX: number, newY: number): void {
+    if (!this.areCoordsValid(prevX, prevY) || !this.areCoordsValid(newX, newY)) return;
+    const piece: Piece | null = this.chessBoard[prevX][prevY];
+    if (!piece || piece.color !== this._playerColor) return;
+
+    const pieceSafeSquares: Coords[] | undefined = this._safeSquares.get(prevX + ',' + prevY);
+    if (!pieceSafeSquares || !pieceSafeSquares.find(coords => coords.x === newX && coords.y === newY))
+      throw new Error('Square is not safe');
+
+    if ((piece instanceof Pawn || piece instanceof King || piece instanceof Rook) && !piece.hasMoved)
+      piece.hasMoved = true;
+
+    // Update the board
+    this.chessBoard[prevX][prevY] = null;
+    this.chessBoard[newX][newY] = piece;
+
+    this._playerColor = this._playerColor === Color.White ? Color.Black : Color.White;
+    this._safeSquares = this.findSafeSquares();
   }
 }
