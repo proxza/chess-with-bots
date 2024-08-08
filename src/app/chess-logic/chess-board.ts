@@ -1,4 +1,4 @@
-import { Color, Coords, FENChar, SafeSquares } from './models';
+import { Color, Coords, FENChar, LastMove, SafeSquares } from './models';
 import { Bishop } from './pieces/bishop';
 import { King } from './pieces/king';
 import { Knight } from './pieces/knight';
@@ -12,6 +12,7 @@ export class ChessBoard {
   private readonly chessBoardSize: number = 8;
   private _playerColor = Color.White;
   private _safeSquares: SafeSquares;
+  private _lastMove: LastMove | undefined;
 
   constructor() {
     this.chessBoard = [
@@ -77,6 +78,10 @@ export class ChessBoard {
     return this._safeSquares;
   }
 
+  public get lastMove(): LastMove | undefined {
+    return this._lastMove;
+  }
+
   public static isSquareDark(x: number, y: number): boolean {
     return (x % 2 === 0 && y % 2 === 0) || (x % 2 === 1 && y % 2 === 1);
   }
@@ -85,7 +90,7 @@ export class ChessBoard {
     return x >= 0 && y >= 0 && x < this.chessBoardSize && y < this.chessBoardSize;
   }
 
-  public isInCheck(playerColor: Color) {
+  public isInCheck(playerColor: Color, checkingCurrentPosition: boolean): boolean {
     for (let x = 0; x < this.chessBoardSize; x++) {
       for (let y = 0; y < this.chessBoardSize; y++) {
         const piece: Piece | null = this.chessBoard[x][y];
@@ -129,7 +134,7 @@ export class ChessBoard {
     this.chessBoard[prevX][prevY] = null;
     this.chessBoard[newX][newY] = piece;
 
-    const isPositionSafe: boolean = !this.isInCheck(piece.color);
+    const isPositionSafe: boolean = !this.isInCheck(piece.color, false);
 
     // restore position back
     this.chessBoard[prevX][prevY] = piece;
@@ -212,6 +217,7 @@ export class ChessBoard {
     this.chessBoard[prevX][prevY] = null;
     this.chessBoard[newX][newY] = piece;
 
+    this._lastMove = { prevX, prevY, currX: newX, currY: newY, piece };
     this._playerColor = this._playerColor === Color.White ? Color.Black : Color.White;
     this._safeSquares = this.findSafeSquares();
   }
