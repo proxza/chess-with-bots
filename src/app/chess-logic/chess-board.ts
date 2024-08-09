@@ -206,6 +206,12 @@ export class ChessBoard {
           }
         }
 
+        if (piece instanceof King) {
+          if (this.canCastle(piece, true)) pieceSafeSquares.push({ x, y: 6 });
+
+          if (this.canCastle(piece, false)) pieceSafeSquares.push({ x, y: 2 });
+        }
+
         if (pieceSafeSquares.length) safeSquares.set(x + ',' + y, pieceSafeSquares);
       }
     }
