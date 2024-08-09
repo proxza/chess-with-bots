@@ -228,7 +228,7 @@ export class ChessBoard {
     const rookPositionY: number = kingSideCastle ? 7 : 0;
     const rook: Piece | null = this.chessBoard[rookPositionX][rookPositionY];
 
-    if ((!(rook instanceof Rook) || rook.hasMoved || this._checkState, this.isInCheck)) return false;
+    if (!(rook instanceof Rook) || rook.hasMoved || this._checkState.isInCheck) return false;
 
     const firstNextKingPositionY: number = kingPositionY + (kingSideCastle ? 1 : -1);
     const secondNextKingPositionY: number = kingPositionY + (kingSideCastle ? 2 : -2);
