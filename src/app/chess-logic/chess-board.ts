@@ -323,4 +323,9 @@ export class ChessBoard {
       this.chessBoard[this._lastMove.currX][this._lastMove.currY] = null;
     }
   }
+
+  private promotedPiece(promotedPieceType: FENChar): Knight | Bishop | Rook | Queen {
+    if (promotedPieceType === FENChar.WhiteKnight || promotedPieceType === FENChar.BlackKnight)
+      return new Knight(this._playerColor);
+  }
 }
