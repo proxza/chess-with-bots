@@ -277,7 +277,7 @@ export class ChessBoard {
     );
   }
 
-  public move(prevX: number, prevY: number, newX: number, newY: number): void {
+  public move(prevX: number, prevY: number, newX: number, newY: number, promotedPieceType: FENChar | null): void {
     if (!this.areCoordsValid(prevX, prevY) || !this.areCoordsValid(newX, newY)) return;
     const piece: Piece | null = this.chessBoard[prevX][prevY];
     if (!piece || piece.color !== this._playerColor) return;
@@ -292,6 +292,12 @@ export class ChessBoard {
     this.handlingSpecialMoves(piece, prevX, prevY, newX, newY);
 
     // Update the board
+    if (promotedPieceType) {
+      this.chessBoard[newX][newY] = this.promotedPiece(promotedPieceType);
+    } else {
+      this.chessBoard[newX][newY] = piece;
+    }
+
     this.chessBoard[prevX][prevY] = null;
     this.chessBoard[newX][newY] = piece;
 
