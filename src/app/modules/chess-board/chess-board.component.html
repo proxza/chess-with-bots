@@ -17,7 +17,7 @@
     </div>
   </div>
 
-  <div class="promotion-dialog">
+  <div *ngIf="isPromotionActive" class="promotion-dialog">
     <img *ngFor="let piece of promotionPieces()" [src]="pieceImagePaths[piece]" [alt]="piece" />
 
     <span class="close-promotion-dialog">&times;</span>
