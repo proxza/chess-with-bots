@@ -32,7 +32,7 @@ export class ChessBoardComponent {
   public isPromotionActive: boolean = false;
   private promotionCoords: Coords | null = null;
   private promotedPiece: FENChar | null = null;
-  public promotionPiece(): FENChar[] {
+  public promotionPieces(): FENChar[] {
     return this.playerColor === Color.White
       ? [FENChar.WhiteKnight, FENChar.WhiteBishop, FENChar.WhiteRook, FENChar.WhiteQueen]
       : [FENChar.BlackKnight, FENChar.BlackBishop, FENChar.BlackRook, FENChar.BlackQueen];
