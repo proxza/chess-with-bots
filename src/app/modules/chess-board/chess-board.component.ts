@@ -114,6 +114,7 @@ export class ChessBoardComponent {
     this.promotedPiece = piece;
     const { x: newX, y: newY } = this.promotionCoords;
     const { x: prevX, y: prevY } = this.selectedSquare;
+    this.updateBoard(prevX, prevY, newX, newY);
   }
 
   public move(x: number, y: number): void {
