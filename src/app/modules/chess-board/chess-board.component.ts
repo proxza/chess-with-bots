@@ -98,6 +98,9 @@ export class ChessBoardComponent {
     }
 
     const { x: prevX, y: prevY } = this.selectedSquare;
+  }
+
+  private updateBoard(prevX: number, prevY: number, newX: number, newY: number): void {
     this.chessBoard.move(prevX, prevY, newX, newY, null);
     this.chessBoardView = this.chessBoard.chessBoardView;
     this.checkState = this.chessBoard.checkState;
