@@ -137,7 +137,10 @@ export class ChessBoard {
     return false;
   }
 
-  private isPositionSafeAfterMove(piece: Piece, prevX: number, prevY: number, newX: number, newY: number): boolean {
+  private isPositionSafeAfterMove(prevX: number, prevY: number, newX: number, newY: number): boolean {
+    const piece: Piece | null = this.chessBoard[prevX][prevY];
+    if (!piece) return false;
+
     const newPiece: Piece | null = this.chessBoard[newX][newY];
     // we cant put piece on a square that already contains piece of the same square
     if (newPiece && newPiece.color === piece.color) return false;
