@@ -61,9 +61,20 @@ export class ChessBoardComponent {
     return this.checkState.isInCheck && this.checkState.x === x && this.checkState.y === y;
   }
 
+  public isSquarePromotionSquare(x: number, y: number): boolean {
+    if (!this.promotionCoords) return false;
+    return this.promotionCoords.x === x && this.promotionCoords.y === y;
+  }
+
   private unmarkingPreviouslySelectedAndSafeSquares(): void {
     this.selectedSquare = { piece: null };
     this.pieceSafeSquares = [];
+
+    if (this.isPromotionActive) {
+      this.isPromotionActive = false;
+      this.promotedPiece = null;
+      this.promotionCoords = null;
+    }
   }
 
   public selectingPiece(x: number, y: number): void {
@@ -91,6 +102,7 @@ export class ChessBoardComponent {
     const shouldOpenPromotionDialog: boolean = !this.isPromotionActive && isPawnOnlastRank;
 
     if (shouldOpenPromotionDialog) {
+      this.pieceSafeSquares = [];
       this.isPromotionActive = true;
       this.promotionCoords = { x: newX, y: newY };
       // because now we wait for player to choose promoted piece
@@ -102,7 +114,7 @@ export class ChessBoardComponent {
   }
 
   private updateBoard(prevX: number, prevY: number, newX: number, newY: number): void {
-    this.chessBoard.move(prevX, prevY, newX, newY, null);
+    this.chessBoard.move(prevX, prevY, newX, newY, this.promotedPiece);
     this.chessBoardView = this.chessBoard.chessBoardView;
     this.checkState = this.chessBoard.checkState;
     this.lastMove = this.chessBoard.lastMove;
@@ -115,6 +127,10 @@ export class ChessBoardComponent {
     const { x: newX, y: newY } = this.promotionCoords;
     const { x: prevX, y: prevY } = this.selectedSquare;
     this.updateBoard(prevX, prevY, newX, newY);
+  }
+
+  public closePawnPromotionDialog(): void {
+    this.unmarkingPreviouslySelectedAndSafeSquares();
   }
 
   public move(x: number, y: number): void {

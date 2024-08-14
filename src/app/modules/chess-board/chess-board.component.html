@@ -8,7 +8,8 @@
         light: !isSquareDark(x, y),
         'selected-square': isSquareSelected(x, y),
         'last-move': isSquareLastMove(x, y),
-        'king-in-check': isSquareChecked(x, y)
+        'king-in-check': isSquareChecked(x, y),
+        'promotion-square': isSquarePromotionSquare(x, y)
       }"
       (click)="move(x, y)"
     >
@@ -25,6 +26,6 @@
       (click)="promotePiece(piece)"
     />
 
-    <span class="close-promotion-dialog">&times;</span>
+    <span class="close-promotion-dialog" (click)="closePawnPromotionDialog()">&times;</span>
   </div>
 </div>

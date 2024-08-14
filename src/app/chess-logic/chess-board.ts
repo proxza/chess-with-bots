@@ -193,13 +193,13 @@ export class ChessBoard {
           }
 
           if (piece instanceof Pawn || piece instanceof Knight || piece instanceof King) {
-            if (this.isPositionSafeAfterMove(piece, x, y, newX, newY)) pieceSafeSquares.push({ x: newX, y: newY });
+            if (this.isPositionSafeAfterMove(x, y, newX, newY)) pieceSafeSquares.push({ x: newX, y: newY });
           } else {
             while (this.areCoordsValid(newX, newY)) {
               newPiece = this.chessBoard[newX][newY];
               if (newPiece && newPiece.color === piece.color) break;
 
-              if (this.isPositionSafeAfterMove(piece, x, y, newX, newY)) pieceSafeSquares.push({ x: newX, y: newY });
+              if (this.isPositionSafeAfterMove(x, y, newX, newY)) pieceSafeSquares.push({ x: newX, y: newY });
 
               if (newPiece !== null) break;
 
@@ -240,13 +240,7 @@ export class ChessBoard {
     const pawnNewPositionY: number = currY;
 
     this.chessBoard[currX][currY] = null;
-    const isPositionSafe: boolean = this.isPositionSafeAfterMove(
-      pawn,
-      pawnX,
-      pawnY,
-      pawnNewPositionX,
-      pawnNewPositionY,
-    );
+    const isPositionSafe: boolean = this.isPositionSafeAfterMove(pawnX, pawnY, pawnNewPositionX, pawnNewPositionY);
     this.chessBoard[currX][currY] = piece;
 
     return isPositionSafe;
@@ -275,8 +269,8 @@ export class ChessBoard {
     if (!kingSideCastle && this.chessBoard[kingPositionX][1]) return false;
 
     return (
-      this.isPositionSafeAfterMove(king, kingPositionX, kingPositionY, kingPositionX, firstNextKingPositionY) &&
-      this.isPositionSafeAfterMove(king, kingPositionX, kingPositionY, kingPositionX, secondNextKingPositionY)
+      this.isPositionSafeAfterMove(kingPositionX, kingPositionY, kingPositionX, firstNextKingPositionY) &&
+      this.isPositionSafeAfterMove(kingPositionX, kingPositionY, kingPositionX, secondNextKingPositionY)
     );
   }
 
