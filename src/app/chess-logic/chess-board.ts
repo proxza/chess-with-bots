@@ -313,6 +313,7 @@ export class ChessBoard {
     this._playerColor = this._playerColor === Color.White ? Color.Black : Color.White;
     this.isInCheck(this._playerColor, true);
     this._safeSquares = this.findSafeSquares();
+    this._isGameOver = this.isGameFinished();
   }
 
   private handlingSpecialMoves(piece: Piece, prevX: number, prevY: number, newX: number, newY: number): void {
