@@ -14,6 +14,7 @@ export class ChessBoard {
   private _safeSquares: SafeSquares;
   private _lastMove: LastMove | undefined;
   private _checkState: CheckState = { isInCheck: false };
+  private fiftyMoveRuleCounter: number = 0;
 
   private _isGameOver: boolean = false;
   private _gameOverMessage: string | undefined;
@@ -297,6 +298,10 @@ export class ChessBoard {
     if ((piece instanceof Pawn || piece instanceof King || piece instanceof Rook) && !piece.hasMoved)
       piece.hasMoved = true;
 
+    const isPieceTaken: boolean = this.chessBoard[newX][newY] !== null;
+    if (piece instanceof Pawn || isPieceTaken) this.fiftyMoveRuleCounter = 0;
+    else this.fiftyMoveRuleCounter += 0.5;
+
     this.handlingSpecialMoves(piece, prevX, prevY, newX, newY);
 
     // Update the board
@@ -364,6 +369,10 @@ export class ChessBoard {
       return true;
     }
 
+    if (this.fiftyMoveRuleCounter === 50) {
+      this._gameOverMessage = 'Draw due fifty move rule!';
+      return true;
+    }
     return false;
   }
 }
