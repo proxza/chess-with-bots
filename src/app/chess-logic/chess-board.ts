@@ -385,4 +385,11 @@ export class ChessBoard {
   private playerHasOnlyTwoKnightsAndKing(pieces: { piece: Piece; x: number; y: number }[]): boolean {
     return pieces.filter(piece => piece.piece instanceof Knight).length === 2;
   }
+
+  private playerHasOnlyBishopWithSameColorAndKing(pieces: { piece: Piece; x: number; y: number }[]): boolean {
+    const bishops = pieces.filter(piece => piece.piece instanceof Bishop);
+    const areAllBishopsOfSameColor =
+      new Set(bishops.map(bishop => ChessBoard.isSquareDark(bishop.x, bishop.y))).size === 1;
+    return bishops.length === pieces.length - 1 && areAllBishopsOfSameColor;
+  }
 }
