@@ -358,6 +358,10 @@ export class ChessBoard {
   }
 
   private isGameFinished(): boolean {
+    if (this.insufficientMaterial()) {
+      this._gameOverMessage = 'Draw due insufficient material position';
+      return true;
+    }
     if (!this._safeSquares.size) {
       if (this._checkState.isInCheck) {
         const prevPlayer: string = this._playerColor === Color.White ? 'Black' : 'White';
@@ -374,5 +378,11 @@ export class ChessBoard {
       return true;
     }
     return false;
+  }
+
+  // Insufficient material
+
+  private playerHasOnlyTwoKnightsAndKing(pieces: { piece: Piece; x: number; y: number }[]): boolean {
+    return pieces.filter(piece => piece.piece instanceof Knight).length === 2;
   }
 }
