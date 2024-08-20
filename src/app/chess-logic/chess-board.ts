@@ -415,5 +415,20 @@ export class ChessBoard {
       return blackPieces.some(piece => piece.piece instanceof Knight || piece.piece instanceof Bishop);
     else if (whitePieces.length === 2 && blackPieces.length === 1)
       return whitePieces.some(piece => piece.piece instanceof Knight || piece.piece instanceof Bishop);
+    // both sides have bishop of same color
+    else if (whitePieces.length === 2 && blackPieces.length === 2) {
+      const whiteBishop = whitePieces.find(piece => piece.piece instanceof Bishop);
+      const blackBishop = blackPieces.find(piece => piece.piece instanceof Bishop);
+
+      if (whiteBishop && blackBishop) {
+        const areBishopsOfSameColor: boolean =
+          (ChessBoard.isSquareDark(whiteBishop.x, whiteBishop.y) &&
+            ChessBoard.isSquareDark(blackBishop.x, blackBishop.y)) ||
+          (!ChessBoard.isSquareDark(whiteBishop.x, whiteBishop.y) &&
+            !ChessBoard.isSquareDark(blackBishop.x, blackBishop.y));
+
+        return areBishopsOfSameColor;
+      }
+    }
   }
 }
