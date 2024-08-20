@@ -408,7 +408,12 @@ export class ChessBoard {
     }
 
     // King vs King
+    if (whitePieces.length === 1 && blackPieces.length === 1) return true;
+
+    // King and Minor Piece vs King
     if (whitePieces.length === 1 && blackPieces.length === 2)
       return blackPieces.some(piece => piece.piece instanceof Knight || piece.piece instanceof Bishop);
+    else if (whitePieces.length === 2 && blackPieces.length === 1)
+      return whitePieces.some(piece => piece.piece instanceof Knight || piece.piece instanceof Bishop);
   }
 }
