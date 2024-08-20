@@ -392,4 +392,19 @@ export class ChessBoard {
       new Set(bishops.map(bishop => ChessBoard.isSquareDark(bishop.x, bishop.y))).size === 1;
     return bishops.length === pieces.length - 1 && areAllBishopsOfSameColor;
   }
+
+  private insufficientMaterial(): boolean {
+    const whitePieces: { piece: Piece; x: number; y: number }[] = [];
+    const blackPieces: { piece: Piece; x: number; y: number }[] = [];
+
+    for (let x = 0; x < this.chessBoardSize; x++) {
+      for (let y = 0; y < this.chessBoardSize; y++) {
+        const piece: Piece | null = this.chessBoard[x][y];
+        if (!piece) continue;
+
+        if (piece.color === Color.White) whitePieces.push({ piece, x, y });
+        else blackPieces.push({ piece, x, y });
+      }
+    }
+  }
 }
