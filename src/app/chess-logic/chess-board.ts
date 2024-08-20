@@ -406,5 +406,9 @@ export class ChessBoard {
         else blackPieces.push({ piece, x, y });
       }
     }
+
+    // King vs King
+    if (whitePieces.length === 1 && blackPieces.length === 2)
+      return blackPieces.some(piece => piece.piece instanceof Knight || piece.piece instanceof Bishop);
   }
 }
