@@ -430,5 +430,21 @@ export class ChessBoard {
         return areBishopsOfSameColor;
       }
     }
+
+    if (
+      (whitePieces.length === 3 && blackPieces.length === 1 && this.playerHasOnlyTwoKnightsAndKing(whitePieces)) ||
+      (whitePieces.length === 1 && blackPieces.length === 3 && this.playerHasOnlyTwoKnightsAndKing(blackPieces))
+    )
+      return true;
+
+    if (
+      (whitePieces.length >= 3 &&
+        blackPieces.length === 1 &&
+        this.playerHasOnlyBishopWithSameColorAndKing(whitePieces)) ||
+      (whitePieces.length === 1 && blackPieces.length >= 3 && this.playerHasOnlyBishopWithSameColorAndKing(blackPieces))
+    )
+      return true;
+
+    return false;
   }
 }
