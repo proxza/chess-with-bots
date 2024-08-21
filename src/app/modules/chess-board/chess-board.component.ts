@@ -22,6 +22,9 @@ export class ChessBoardComponent {
   public get safeSquares(): SafeSquares {
     return this.chessBoard.safeSquares;
   }
+  public get gameOverMessage(): string | undefined {
+    return this.chessBoard.gameOverMessage;
+  }
 
   private selectedSquare: SelectedSquare = { piece: null };
   private pieceSafeSquares: Coords[] = [];
