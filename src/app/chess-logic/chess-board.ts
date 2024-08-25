@@ -19,6 +19,8 @@ export class ChessBoard {
   private _isGameOver: boolean = false;
   private _gameOverMessage: string | undefined;
 
+  private fullNumberOfMoves: number = 1;
+
   constructor() {
     this.chessBoard = [
       [
@@ -288,8 +290,10 @@ export class ChessBoard {
 
   public move(prevX: number, prevY: number, newX: number, newY: number, promotedPieceType: FENChar | null): void {
     if (this._isGameOver) throw new Error('Game is over, you cant play move');
+
     if (!this.areCoordsValid(prevX, prevY) || !this.areCoordsValid(newX, newY)) return;
     const piece: Piece | null = this.chessBoard[prevX][prevY];
+
     if (!piece || piece.color !== this._playerColor) return;
 
     const pieceSafeSquares: Coords[] | undefined = this._safeSquares.get(prevX + ',' + prevY);
@@ -320,6 +324,8 @@ export class ChessBoard {
     this.isInCheck(this._playerColor, true);
     this._safeSquares = this.findSafeSquares();
     this._isGameOver = this.isGameFinished();
+
+    if (this._playerColor === Color.White) this.fullNumberOfMoves++;
   }
 
   private handlingSpecialMoves(piece: Piece, prevX: number, prevY: number, newX: number, newY: number): void {
