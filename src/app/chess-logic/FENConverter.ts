@@ -1,5 +1,6 @@
 import { Color, LastMove } from './models';
 import { King } from './pieces/king';
+import { Pawn } from './pieces/pawn';
 import { Piece } from './pieces/piece';
 import { Rook } from './pieces/rook';
 
@@ -63,5 +64,15 @@ export class FENConverter {
 
     const castlingAvailability: string = castlingPossibilities(Color.White) + castlingPossibilities(Color.Black);
     return castlingAvailability !== '' ? castlingAvailability : '-';
+  }
+
+  private enPassantPosibility(lastMove: LastMove | undefined, color: Color): string {
+    if (!lastMove) return '-';
+    const { piece, currX: newX, prevX, prevY } = lastMove;
+
+    if (piece instanceof Pawn && Math.abs(newX - prevX) === 2) {
+      const row: number = color === Color.White ? 6 : 3;
+      return columns;
+    }
   }
 }
