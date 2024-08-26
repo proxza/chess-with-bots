@@ -1,3 +1,4 @@
+import { columns } from '../modules/chess-board/models';
 import { Color, LastMove } from './models';
 import { King } from './pieces/king';
 import { Pawn } from './pieces/pawn';
@@ -36,7 +37,11 @@ export class FENConverter {
     }
 
     const player: string = playerColor === Color.White ? 'w' : 'b';
-
+    FEN += ' ' + player;
+    FEN += ' ' + this.castlingAvailability(board);
+    FEN += ' ' + this.enPassantPosibility(lastMove, playerColor);
+    FEN += ' ' + fiftyMoveRuleCounter * 2;
+    FEN += ' ' + numberOfFullMoves;
     return FEN;
   }
 
@@ -72,7 +77,8 @@ export class FENConverter {
 
     if (piece instanceof Pawn && Math.abs(newX - prevX) === 2) {
       const row: number = color === Color.White ? 6 : 3;
-      return columns;
+      return columns[prevY] + String(row);
     }
+    return '-';
   }
 }
